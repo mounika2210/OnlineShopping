@@ -1,35 +1,21 @@
-﻿namespace OnlineShoppingApp
+﻿using System;
+
+namespace OnlineShoppingApp
 {
     class Program
     {
         static void Main(string[] args)
         {
 
-            var myAccount = new Account();
+            var myAccount = OnlineShopping.CreateAccount("kristina", "2062062066", "alexa@google.com", "In The Cloud");
 
-            myAccount.username = "kristina";
-            myAccount.mobileno = "206 - 623 - 9856";
-            myAccount.email = "kristina@yahoo.com";
-            myAccount.address = " Redmond,Bellvue";
+            // Add payment details to account. We are accepting only one payment method. It will replace old one, if any.
+            var myPayment = new Payment("kristiuna", 123123, 176, "2020", PaymentMethod.GiftCard);
+            myAccount.Payment = myPayment;
 
-            var myCart = new Cart();
-            myCart.item = "top";
-            myCart.price = 26;
-            myCart.quantity = 2;
-            myCart.size = "medium";
-
-            var myPayment = new Payment();
-            myPayment.cardno = 45689;
-            myPayment.CVV = 678;
-            myPayment.name = "Kristin Joseph";
-            myPayment.validDate = "22-10-2024";
-
-            var myOrder = new Checkout();
-            myOrder.myCart = myCart;
-            myOrder.deliveryAddress = myAccount.address;
-            myOrder.deliveryDate = "2-1-2020";
-            
-
+            Cart myCart = OnlineShopping.AddToCart("Shirt", 1, "XL");
+            var myOrder = OnlineShopping.Checkout(myAccount, myCart);
+            Console.WriteLine("Your order will be delivered on " + myOrder.DeliveryDate);            
         }
     }
 }

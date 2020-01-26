@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OnlineShoppingApp
+﻿namespace OnlineShoppingApp
 {
     class Cart
     {
         #region properties
-        public string item { get; set; }
-        public int quantity { get; set; }
-        public  string size { get; set; }
-        public int price { get; set; }
-
+        public string Item { get; set; }
+        public int Quantity { get; set; }
+        public  string Size { get; set; }
+        public int Price { get; set; }
         #endregion properties
+
+        // ToDo: how to add more items to cart?
     }
 }

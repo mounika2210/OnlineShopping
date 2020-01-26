@@ -7,11 +7,17 @@ namespace OnlineShoppingApp
     class Account
     {
         #region properties
-        public string  username { get; set; }
-        public string mobileno { get; set; }
-        public string email { get; set; }
-        public string  address { get; set; }
+        public string  UserName { get; private set; }
+        public string MobileNo { get; set; }
+        public string Email { get; set; }
+        public string  Address { get; set; }
+        public Payment Payment { get; set; }
         
         #endregion properties
+        public Account(string userName)
+        {
+            // UserName once created cannot be modified
+            UserName = userName;
+        }
     }
 }
