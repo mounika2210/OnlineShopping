@@ -21,7 +21,7 @@ namespace OnlineShoppingApp
         public PaymentMethod PaymentMethod { get; private set; }
 
         #endregion details
-
+        // constructor
         public Payment(string name, int cardNo, int cVV, string validDate, PaymentMethod paymentMethod)
         {
             Name = name;

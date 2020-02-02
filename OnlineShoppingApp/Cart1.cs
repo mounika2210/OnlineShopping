@@ -1,6 +1,8 @@
-﻿namespace OnlineShoppingApp
+﻿using System.Collections.Generic;
+
+namespace OnlineShoppingApp
 {
-    class Cart
+    class CartEntry
     {
         #region properties
         public string Item { get; set; }
@@ -8,7 +10,22 @@
         public  string Size { get; set; }
         public int Price { get; set; }
         #endregion properties
+    }
 
-        // ToDo: how to add more items to cart?
+    class Cart
+    {
+        private List<CartEntry> CartEntries;
+
+        #region constructor
+        public Cart()
+        {
+            CartEntries = new List<CartEntry>();
+        }
+        #endregion
+        
+        public void AddEntry(CartEntry cartEntry)
+        {
+            CartEntries.Add(cartEntry);
+        }
     }
 }

@@ -6,14 +6,16 @@ namespace OnlineShoppingApp
 {
     class OrderDetails
     {
-        public Account Account { get; private set; }
-        public Cart MyCart { get; set; }
+        public string UserName { get; private set; }
+        public Cart MyCart { get; private set; }
         public string DeliveryAddress { get; set; }
-        public DateTime DeliveryDate { get; set; }
+        public DateTime DeliveryDate { get; private set; }
 
-        public OrderDetails(Account account)
+        public OrderDetails(string userName, Cart myCart)
         {
-            Account = account;
+            UserName = userName;
+            MyCart = myCart;
+            DeliveryDate = DateTime.Now.AddDays(5); // Delivery in 5 days
         }
     }
 }
