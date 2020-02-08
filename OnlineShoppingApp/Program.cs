@@ -7,18 +7,6 @@ namespace OnlineShoppingApp
         static void Main(string[] args)
         {
 
-            var myAccount = OnlineShopping.CreateAccount("kristina", "2062062066", "alexa@google.com", "In The Cloud");
-
-            // Add payment details to account. We are accepting only one payment method. It will replace old one, if any.
-            var myPayment = new Payment("kristiuna", 123123, 176, "2020", PaymentMethod.GiftCard);
-            myAccount.MyPayment = myPayment;
-
-            myAccount.AddToCart("Shirt", 1, ItemSize.xlarge);
-            myAccount.AddToCart("Pant", 1, ItemSize.small);
-            var myOrder = myAccount.Checkout("Bellevue, WA 98007");
-            Console.WriteLine("Your order will be delivered on " + myOrder.DeliveryDate);
-
-
             Console.WriteLine("welcome to online shopping");
             while (true)
             {
