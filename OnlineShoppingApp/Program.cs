@@ -11,10 +11,10 @@ namespace OnlineShoppingApp
 
             // Add payment details to account. We are accepting only one payment method. It will replace old one, if any.
             var myPayment = new Payment("kristiuna", 123123, 176, "2020", PaymentMethod.GiftCard);
-            myAccount.Payment = myPayment;
+            myAccount.MyPayment = myPayment;
 
-            myAccount.AddToCart("Shirt", 1, "XL");
-            myAccount.AddToCart("Pant", 1, "XL");
+            myAccount.AddToCart("Shirt", 1, ItemSize.xlarge);
+            myAccount.AddToCart("Pant", 1, ItemSize.small);
             var myOrder = myAccount.Checkout("Bellevue, WA 98007");
             Console.WriteLine("Your order will be delivered on " + myOrder.DeliveryDate);
 
@@ -22,17 +22,19 @@ namespace OnlineShoppingApp
             Console.WriteLine("welcome to online shopping");
             while (true)
             {
-
+                Console.WriteLine("\n==============================");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("1. Create an account");
                 Console.WriteLine("2. Add items to the Cart");
-                Console.WriteLine("3. Check the orderdetails");
-                Console.WriteLine("4. Checkout");
+                Console.WriteLine("3. View Cart");
+                Console.WriteLine("4. Set Payment");
+                Console.WriteLine("5. Checkout Cart");
+                Console.WriteLine("6. Order History");
+                Console.WriteLine("==============================\n");
 
                 // write: stays on sameline and readline, takes the input from user
                 Console.Write("select an option: ");
                 var option = Console.ReadLine();
-
 
                #region collections
                 switch (option)
@@ -56,9 +58,43 @@ namespace OnlineShoppingApp
                         var address = Console.ReadLine();
                         // END: User details
 
-                        var userAccount = OnlineShopping.CreateAccount(Username, mobileno, emailid, address);
+                        OnlineShopping.CreateAccount(Username, mobileno, emailid, address);
+                        break;
 
+                    case "2":
+                        Console.Write("Username: ");
+                        var userName = Console.ReadLine();
+
+                        Console.Write("Item: ");
+                        var item = Console.ReadLine();
+
+                        Console.Write("Quantity: ");
+                        int quantity =Int32.Parse(Console.ReadLine());
+                        // add extra quantity
+
+                        Console.Write("select Size: ");
+                        var sizes = Enum.GetNames(typeof(ItemSize));
+                        for (var i = 0; i < sizes.Length; i++)
+                        {
+                            Console.WriteLine($"{i}.{sizes[i]}");
+                        }
+                        var size = Enum.Parse<ItemSize>(Console.ReadLine());
+
+                        OnlineShopping.AddToCart(userName, item, quantity, size);
+                        break;
+                    case "3":
+                        Console.Write("Username: ");
+                        userName = Console.ReadLine();
+
+                        PrintCart(userName);
+
+                        break;
+
+                    case "4":
                         // Begin: payment details
+                        Console.WriteLine("Username");
+                        var username = Console.ReadLine();
+
                         Console.WriteLine("select an option for payment: ");
                         var paymenttypes = Enum.GetNames(typeof(PaymentMethod));
                         for (var i = 0; i < paymenttypes.Length; i++)
@@ -67,7 +103,7 @@ namespace OnlineShoppingApp
                         }
                         var payment = Enum.Parse<PaymentMethod>(Console.ReadLine());
 
-                        Console.WriteLine("CardNo");
+                        Console.WriteLine("CardName");
                         var Cardname = Console.ReadLine();
 
                         Console.WriteLine ("CardNo");
@@ -80,23 +116,41 @@ namespace OnlineShoppingApp
                         var validDate = Console.ReadLine();
 
                         var carddetails = new Payment(Cardname,Int32.Parse(cardNo), Int32.Parse(cvv),validDate,payment);
-                        userAccount.Payment = carddetails;
-
-                        //END payment details
-
-                       break;
-
-                    case "2":
-                        // case 2 job is to add items to the cart 
+                        OnlineShopping.SetPayment(username, carddetails);
                        
+                        //END payment details                        
+                       break;
+                      
+                    case "5":
+                        Console.WriteLine("Username");
+                        userName = Console.ReadLine();
+
+                        var orderDetails = OnlineShopping.CheckOut(userName);
+                        if (orderDetails != null)
+                        {
+                            Console.WriteLine("\n-----------------------------");
+                            orderDetails.PrintOrderDetails();
+                            Console.WriteLine("-----------------------------\n");
+                        }
+
                         break;
+                    case "6":
+                        Console.WriteLine("Username");
+                        userName = Console.ReadLine();
+                        var account = OnlineShopping.GetAccountByUserName(userName);
+                        foreach (var order in account.OrderHistory)
+                        {
+                            Console.WriteLine("\n-----------------------------");
+                            order.PrintOrderDetails();
+                        }
+                        Console.WriteLine("-----------------------------\n");
+
+                        break;
+
                     default:
                         Console.Write("Invalid Option!,select the coorect one: ");
                         Console.ReadLine();
                         break;
-
-
-
 
                 }
 
@@ -104,13 +158,20 @@ namespace OnlineShoppingApp
             }
 
             #endregion collections 
+        }
 
-             
-
-
-
-
-
+        private static void PrintCart(string userName)
+        {
+            var account = OnlineShopping.GetAccountByUserName(userName);
+            if (account == null)
+            {
+                Console.WriteLine("No account with this username");
+            }
+            else 
+            {
+                var cart = account.MyCart;
+                cart.PrintCart();
+            }
         }
     }
 }

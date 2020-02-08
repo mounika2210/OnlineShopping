@@ -7,11 +7,11 @@ namespace OnlineShoppingApp
     class Account
     {
         #region properties
-        public string  UserName { get; private set; }
+        public string UserName { get; private set; }
         public string MobileNo { get; set; }
         public string Email { get; set; }
-        public string  Address { get; set; }
-        public Payment Payment { get; set; }
+        public string Address { get; set; }
+        public Payment MyPayment { get; set; }
         public Cart MyCart { get; }
         public List<OrderDetails> OrderHistory { get; private set; }
         
@@ -26,7 +26,7 @@ namespace OnlineShoppingApp
 
         public void AddToCart(string item,
             int quantity,
-            string size)
+            ItemSize size)
         {
             var cartItem = new CartEntry
             {
@@ -41,12 +41,15 @@ namespace OnlineShoppingApp
 
         public OrderDetails Checkout(string deliveryAddress)
         {
-            var MyOrderDetails = new OrderDetails(UserName, MyCart)
+            var MyOrderDetails = new OrderDetails(UserName, MyCart.CartEntries)
             {
                 DeliveryAddress = deliveryAddress
             };
 
+            //adding order details to order history
             OrderHistory.Add(MyOrderDetails);
+            //clearing the cart after checkout
+            MyCart.CartEntries.Clear();
 
             return MyOrderDetails;
         }

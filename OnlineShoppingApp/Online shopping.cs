@@ -22,6 +22,13 @@ namespace OnlineShoppingApp
             string email,
             string address)
         {
+            var account = GetAccountByUserName(userName);
+            if (account != null)
+            {
+                Console.WriteLine("User already exists with UserName: " + userName);
+                return null;
+            }
+
             // Object Initalising
             var myAccount = new Account(userName)
             {
@@ -33,13 +40,62 @@ namespace OnlineShoppingApp
 
             return myAccount;
         }
-        public static void AddToCart(string userName, string item)
+        public static void AddToCart(string userName, string item, int quantity, ItemSize size)
         {
-            var account = accounts.Where(a => a.UserName == userName);
-        
+            var account = GetAccountByUserName(userName);
+            if (account == null)
+            {
+                Console.WriteLine("No account with this username");
+                return;
+            }
+            account.AddToCart(item, 1, size);
         }
+
+        public static void SetPayment(string UserName, Payment payment)
+        {
+            var account = GetAccountByUserName(UserName);
+            if (account == null)
+            {
+                Console.WriteLine("No account with this username");
+                return;
+            }
+            account.MyPayment = payment;
+        }
+
+        public static Account GetAccountByUserName(string UserName)
+        {
+            return accounts.SingleOrDefault(a => a.UserName ==UserName);
+        }
+
+        public static OrderDetails CheckOut(string UserName)
+        {
+            var account = GetAccountByUserName(UserName);
+            if (account==null)
+            {
+                Console.WriteLine("No account with this username");
+                return null;
+            }
+            if (account.MyPayment==null)
+            {
+                Console.WriteLine("Payment is null, Please add the Payment Details!");
+                return null;
+            }
+            
+            if(account.MyCart.CartEntries.Count==0)
+            {
+                Console.WriteLine("Cart is Empty!,Please add items to cart.");
+                return null;
+
+            }
+                        
+            var MyOrderDetails = account.Checkout(account.Address);
+            return MyOrderDetails;
+        }
+
+
     }
+}
 
         
-}    
+
 
