@@ -112,8 +112,10 @@ namespace OnlineShoppingApp
                     case "5":
                         Console.WriteLine("Username");
                         userName = Console.ReadLine();
+                        Console.WriteLine("Delivery Address: ");
+                        var deliveryaddress = Console.ReadLine();
 
-                        var orderDetails = OnlineShopping.CheckOut(userName);
+                        var orderDetails = OnlineShopping.CheckOut(userName, deliveryaddress);
                         if (orderDetails != null)
                         {
                             Console.WriteLine("\n-----------------------------");

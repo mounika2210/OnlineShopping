@@ -67,7 +67,7 @@ namespace OnlineShoppingApp
             return accounts.SingleOrDefault(a => a.UserName ==UserName);
         }
 
-        public static OrderDetails CheckOut(string UserName)
+        public static OrderDetails CheckOut(string UserName, string deliveryaddress)
         {
             var account = GetAccountByUserName(UserName);
             if (account==null)
@@ -88,7 +88,7 @@ namespace OnlineShoppingApp
 
             }
                         
-            var MyOrderDetails = account.Checkout(account.Address);
+            var MyOrderDetails = account.Checkout(deliveryaddress);
             return MyOrderDetails;
         }
 
