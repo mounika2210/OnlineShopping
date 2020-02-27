@@ -1,8 +1,226 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200227065234_mochi.cs" />
+    <Compile Remove="Migrations\20200227065234_mochi.Designer.cs" />
+    <Compile Remove="Migrations\20200227065642_mochiti.cs" />
+    <Compile Remove="Migrations\20200227065642_mochiti.Designer.cs" />
+    <Compile Remove="Migrations\20200227065826_mocho.cs" />
+    <Compile Remove="Migrations\20200227065826_mocho.Designer.cs" />
+    <Compile Remove="Migrations\20200227065949_mocho2.cs" />
+    <Compile Remove="Migrations\20200227065949_mocho2.Designer.cs" />
+    <Compile Remove="Migrations\20200227074146_Mothi3.cs" />
+    <Compile Remove="Migrations\20200227074146_Mothi3.Designer.cs" />
+    <Compile Remove="Migrations\20200227074238_Mothi4.cs" />
+    <Compile Remove="Migrations\20200227074238_Mothi4.Designer.cs" />
+    <Compile Remove="Migrations\20200227074332_Mothi5.cs" />
+    <Compile Remove="Migrations\20200227074332_Mothi5.Designer.cs" />
+    <Compile Remove="Migrations\20200227074801_Mothi6.cs" />
+    <Compile Remove="Migrations\20200227074801_Mothi6.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>

@@ -45,11 +45,18 @@ namespace OnlineShoppingApp
                         Console.WriteLine("Address: ");
                         var address = Console.ReadLine();
                         // END: User details
-
-                        OnlineShopping.CreateAccount(Username, mobileno, emailid, address);
+                        try
+                        {
+                            OnlineShopping.CreateAccount(Username, mobileno, emailid, address);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         break;
 
                     case "2":
+
                         Console.Write("Username: ");
                         var userName = Console.ReadLine();
 
@@ -60,7 +67,7 @@ namespace OnlineShoppingApp
                         int quantity =Int32.Parse(Console.ReadLine());
                         // add extra quantity
 
-                        Console.Write("select Size: ");
+                        Console.WriteLine("select Size: ");
                         var sizes = Enum.GetNames(typeof(ItemSize));
                         for (var i = 0; i < sizes.Length; i++)
                         {
@@ -68,18 +75,27 @@ namespace OnlineShoppingApp
                         }
                         var size = Enum.Parse<ItemSize>(Console.ReadLine());
 
-                        OnlineShopping.AddToCart(userName, item, quantity, size);
+                        try
+                        {
+                            OnlineShopping.AddToCart(userName, item, quantity, size);
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+
                         break;
                     case "3":
                         Console.Write("Username: ");
                         userName = Console.ReadLine();
 
-                        PrintCart(userName);
+                        OnlineShopping.PrintCart(userName);
 
                         break;
 
                     case "4":
                         // Begin: payment details
+
                         Console.WriteLine("Username");
                         var username = Console.ReadLine();
 
@@ -104,36 +120,40 @@ namespace OnlineShoppingApp
                         var validDate = Console.ReadLine();
 
                         var carddetails = new Payment(Cardname,Int32.Parse(cardNo), Int32.Parse(cvv),validDate,payment);
-                        OnlineShopping.SetPayment(username, carddetails);
+                        try
+                        {
+                            OnlineShopping.SetPayment(username, carddetails);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                       
                        
                         //END payment details                        
                        break;
                       
                     case "5":
+
                         Console.WriteLine("Username");
                         userName = Console.ReadLine();
+
                         Console.WriteLine("Delivery Address: ");
                         var deliveryaddress = Console.ReadLine();
 
-                        var orderDetails = OnlineShopping.CheckOut(userName, deliveryaddress);
-                        if (orderDetails != null)
+                        try
                         {
-                            Console.WriteLine("\n-----------------------------");
-                            orderDetails.PrintOrderDetails();
-                            Console.WriteLine("-----------------------------\n");
+                            OnlineShopping.CheckOut(userName, deliveryaddress);
                         }
-
+                        catch(ArgumentException c)
+                        {
+                            Console.WriteLine(c.Message);
+                        }
                         break;
                     case "6":
                         Console.WriteLine("Username");
                         userName = Console.ReadLine();
-                        var account = OnlineShopping.GetAccountByUserName(userName);
-                        foreach (var order in account.OrderHistory)
-                        {
-                            Console.WriteLine("\n-----------------------------");
-                            order.PrintOrderDetails();
-                        }
-                        Console.WriteLine("-----------------------------\n");
+                        OnlineShopping.PrintOrderHistory(userName);
 
                         break;
 
@@ -148,20 +168,6 @@ namespace OnlineShoppingApp
             }
 
             #endregion collections 
-        }
-
-        private static void PrintCart(string userName)
-        {
-            var account = OnlineShopping.GetAccountByUserName(userName);
-            if (account == null)
-            {
-                Console.WriteLine("No account with this username");
-            }
-            else 
-            {
-                var cart = account.MyCart;
-                cart.PrintCart();
-            }
         }
     }
 }

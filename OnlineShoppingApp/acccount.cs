@@ -23,35 +23,5 @@ namespace OnlineShoppingApp
             MyCart = new Cart();
             OrderHistory = new List<OrderDetails>();
         }
-
-        public void AddToCart(string item,
-            int quantity,
-            ItemSize size)
-        {
-            var cartItem = new CartEntry
-            {
-                Item = item,
-                Quantity = quantity,
-                Size = size,
-                Price = 10 // Fixed price for all items
-            };
-
-            MyCart.AddEntry(cartItem);
-        }
-
-        public OrderDetails Checkout(string deliveryAddress)
-        {
-            var MyOrderDetails = new OrderDetails(UserName, MyCart.CartEntries)
-            {
-                DeliveryAddress = deliveryAddress
-            };
-
-            //adding order details to order history
-            OrderHistory.Add(MyOrderDetails);
-            //clearing the cart after checkout
-            MyCart.CartEntries.Clear();
-
-            return MyOrderDetails;
-        }
     }
 }

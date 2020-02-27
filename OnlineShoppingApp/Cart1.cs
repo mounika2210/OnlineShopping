@@ -18,6 +18,10 @@ namespace OnlineShoppingApp
         public int Quantity { get; set; }
         public ItemSize Size { get; set; }
         public int Price { get; set; }
+        public int ItemId { get; set; }
+
+        public string UserName { get; set; }
+        public Account Account { get; set; }
         #endregion properties
     }
 

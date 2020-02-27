@@ -13,18 +13,23 @@ namespace OnlineShoppingApp
 
     class Payment
     {
-        #region details 
-        public string Name  { get; private set; }
+        #region details   
+        public int ID { get; set; }
+        public string CardName { get; private set; }
         public int CardNo { get; private set; }
         public int CVV { get; private set; }
         public string ValidDate { get; private set; }
         public PaymentMethod PaymentMethod { get; private set; }
+        public Account Account { get; set; }
+        public string UserName { get; set; }
+
+        public Payment() { }
 
         #endregion details
         // constructor
         public Payment(string name, int cardNo, int cVV, string validDate, PaymentMethod paymentMethod)
         {
-            Name = name;
+            CardName = name;
             CardNo = cardNo;
             CVV = cVV;
             ValidDate = validDate;
