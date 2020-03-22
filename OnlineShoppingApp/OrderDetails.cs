@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OnlineShoppingApp
 {
-    class OrderedItem
+    public class OrderedItem
     {
         #region properties
         public string Item { get; set; }
@@ -21,7 +21,7 @@ namespace OnlineShoppingApp
         #endregion properties
     }
 
-    class OrderDetails
+    public class OrderDetails
     {
         public int OrderId { get; set; }
         public string UserName { get; set; }

@@ -3,7 +3,7 @@ using System;
 
 namespace OnlineShoppingApp
 {
-    enum ItemSize
+    public enum ItemSize
     {
        xsmall,
        small,
@@ -11,7 +11,7 @@ namespace OnlineShoppingApp
        large,
        xlarge
     }
-    class CartEntry
+    public class CartEntry
     {
         #region properties
         public string Item { get; set; }
@@ -25,7 +25,7 @@ namespace OnlineShoppingApp
         #endregion properties
     }
 
-    class Cart
+    public class Cart
     {
         public List<CartEntry> CartEntries { get; }
 

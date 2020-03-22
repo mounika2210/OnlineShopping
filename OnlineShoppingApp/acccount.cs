@@ -4,10 +4,10 @@ using System.Text;
 
 namespace OnlineShoppingApp
 {
-    class Account
+    public class Account
     {
         #region properties
-        public string UserName { get; private set; }
+        public string UserName { get; set; }
         public string MobileNo { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
@@ -16,10 +16,9 @@ namespace OnlineShoppingApp
         public List<OrderDetails> OrderHistory { get; private set; }
         
         #endregion properties
-        public Account(string userName)
+        public Account()
         {
             // UserName once created cannot be modified
-            UserName = userName;
             MyCart = new Cart();
             OrderHistory = new List<OrderDetails>();
         }

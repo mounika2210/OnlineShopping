@@ -5,7 +5,8 @@ using System.Linq;
 
 namespace OnlineShoppingApp
 {
-    static class OnlineShopping
+
+    public static class OnlineShopping
 
     {
         private static ShoppingApp db = new ShoppingApp();
@@ -17,21 +18,26 @@ namespace OnlineShoppingApp
         /// <param name="email"></param>
         /// <param name="address"></param>
         /// <returns></returns>
+
+
         public static Account CreateAccount(string userName,
             string mobileNo,
             string email,
             string address)
+
+
         {
             var account = GetAccountByUserName(userName);
             if (account != null)
             {
                 throw new ArgumentException("UserName Already exists! Try Again.");
-                
+
             }
 
             // Object Initalising
-            var myAccount = new Account(userName)
+            var myAccount = new Account
             {
+                UserName = userName,
                 MobileNo = mobileNo,
                 Email = email,
                 Address = address
@@ -40,6 +46,45 @@ namespace OnlineShoppingApp
             db.SaveChanges();
             return myAccount;
         }
+        public static void UpdateAccount(string userName,
+            string mobileNo,
+            string address)
+        {
+            var account = GetAccountByUserName(userName);
+            if (account == null)
+            {
+                throw new ArgumentException("No account with this UserName.");
+            }
+
+            account.MobileNo = mobileNo;
+            account.Address = address;
+            db.SaveChanges();
+        }
+
+        public static void UpdatePayment(int id, string cardName, int cardNo, int cVV, string validDate, PaymentMethod paymentMethod)
+        {
+            var ipayment = GetPaymentByID(id);
+
+
+            ipayment.CardName = cardName;
+            ipayment.CardNo = cardNo;
+            ipayment.CVV = cVV;
+            ipayment.ValidDate = validDate;
+            ipayment.PaymentMethod = paymentMethod;
+
+            db.SaveChanges();
+        }
+        public static void UpdateCart(int itemid, string item, int quantity, ItemSize size)
+        {
+            var icartentry = GetItemByID(itemid);
+
+            icartentry.Item = item;
+            icartentry.Quantity = quantity;
+            icartentry.Size = size;
+            db.SaveChanges();
+        }
+       
+
         public static void AddToCart(string userName, string item, int quantity, ItemSize size)
         {
             var account = GetAccountByUserName(userName);
@@ -61,16 +106,13 @@ namespace OnlineShoppingApp
             db.SaveChanges();
         }
 
-        public static IEnumerable<CartEntry> GetCartItems(string UserName)
+        public static IEnumerable<CartEntry> GetCartItems(string emailId)
         {
-            var account = GetAccountByUserName(UserName);
-            if (account == null)
-            {
-                throw new ArgumentException("No account with this UserName");
-            }
-            IEnumerable<CartEntry> cartItems = db.CartEntries.Where(cartItem => cartItem.UserName == UserName);
+            var userName = GetUserNameByEmailId(emailId);
+            IEnumerable<CartEntry> cartItems = db.CartEntries.Where(cartItem => cartItem.UserName == userName);
             return cartItems;
         }
+
 
         public static void PrintCart(string UserName)
         {
@@ -79,7 +121,7 @@ namespace OnlineShoppingApp
             {
                 Console.WriteLine("Cart is empty. Keep Shopping!!!!");
             }
-            else 
+            else
             {
                 Console.WriteLine("------------------------");
                 foreach (var item in cartItems)
@@ -92,6 +134,7 @@ namespace OnlineShoppingApp
         }
 
         public static void SetPayment(string UserName, Payment payment)
+
         {
             var account = GetAccountByUserName(UserName);
             if (account == null)
@@ -101,6 +144,40 @@ namespace OnlineShoppingApp
             payment.UserName = UserName;
             db.Payments.Add(payment);
             db.SaveChanges();
+        }
+       
+        public static string GetUserNameByEmailId(string EmailId)
+        {
+            var account = GetAccountByEmailId(EmailId);
+            return db.Accounts.FirstOrDefault().UserName;
+        }
+
+        public static IEnumerable<Payment> GetPaymentByEmailId(string emailId)
+        {
+            string username = GetUserNameByEmailId(emailId);
+            return db.Payments.Where(a => a.UserName == username);
+        }
+        public static Payment GetPaymentByID(int? id)
+        {
+            return db.Payments.SingleOrDefault(a => a.ID == id);
+        }
+        public static CartEntry GetItemByID(int? ItemID)
+        {
+            return db.CartEntries.SingleOrDefault(a => a.ItemId == ItemID);
+        }
+
+        public static void RemoveItembyId(int itemId)
+
+        {
+            var cartEntry = GetItemByID(itemId);
+            db.CartEntries.Remove(cartEntry);        
+        }
+        
+        
+
+        public static IEnumerable<Account> GetAccountByEmailId(string emailId)
+        {
+            return db.Accounts.Where(a => a.Email == emailId);
         }
 
         public static Account GetAccountByUserName(string UserName)
@@ -180,6 +257,17 @@ namespace OnlineShoppingApp
                 }
                 Console.WriteLine("================================\n");
             }
+        }
+
+        public static IEnumerable<OrderDetails> GetOrderHistory(string UserName)
+        {
+            var account = GetAccountByUserName(UserName);
+            if (account == null)
+            {
+                throw new ArgumentException("No account with this UserName");
+            }
+
+            return db.OrderDetails.Where(order => order.UserName == UserName);
         }
 
         public static void PrintOrderDetails(OrderDetails orderDetails)

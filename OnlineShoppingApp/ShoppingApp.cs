@@ -5,13 +5,23 @@ using System.Text;
 
 namespace OnlineShoppingApp
 {
-    class ShoppingApp: DbContext
+    public class ShoppingApp: DbContext
     {
         public DbSet<Account> Accounts { get; set; }   
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<CartEntry> Cart { get; set; }
         public DbSet<CartEntry> CartEntries { get; set; }
         public DbSet<OrderedItem> OrderedItems { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
+        public ShoppingApp()
+        {
+
+        }
+
+        public ShoppingApp(DbContextOptions<ShoppingApp> Options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog= Online Shopping  Integrated Security = True; Connect Timeout = 30; MultipleActiveResultSets = true;");
@@ -68,6 +78,7 @@ namespace OnlineShoppingApp
                 .IsRequired();
 
             });
+            
 
             modelBuilder.Entity<CartEntry>(entity =>
             {
